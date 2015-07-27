@@ -38,10 +38,10 @@ Porting to wired ethernet boards may require more effort. I've tried to stay as 
 
 ## Library Details
 
-#include "Syslog.h" /* If using Particle DEV or most other environments */
-#include "Syslog/Syslog.h" /* If using build.particle.io Cloud IDE */
+ #include "Syslog.h" /* If using Particle DEV or most other environments */
+ #include "Syslog/Syslog.h" /* If using build.particle.io Cloud IDE */
 
-void openlog(const char *ident, int option, int facility);
+ void openlog(const char *ident, int option, int facility);
 
 
 ## Example Usage
