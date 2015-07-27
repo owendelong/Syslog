@@ -1,0 +1,7 @@
+{
+  "name": "Syslog Library for Particle",
+  "author": "Owen DeLong <owen@delong.com>",
+  "license": "GPL Any Version",
+  "version": "0.0.10",
+  "description": "A simple SYSLOG UPD library for Particle"
+}
