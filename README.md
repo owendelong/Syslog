@@ -54,6 +54,14 @@ void setlogmask(int logmask);
 
 ```
 
+In addition to the above posix-like syslog capabilities, the following functions are provided in order to try and make it convenient to
+apply Syslog to existing programs:
+
+```
+void Syslog.print(arg);
+void Syslog.println(arg);
+```
+
 If setuplog() is called, it should be called before openlog(), or, the log should be closed prior to calling setuplog() and then re-opened.
 
 The openlog() call must preceed any calls to syslog().
@@ -109,6 +117,22 @@ port is the port number to use for logging, defaults to 514. This library logs v
 
 `closelog()`
 * Closes out the socket and frees up resources
+
+`Syslog.print(arg)`
+* Will take any argument compatible with other print() functions such as Serial.print().
+* Will log to the default LOG_USER facility at priority LOG_DEBUG.
+* Will buffer up the results up to 2048 bytes of Syslog.print() calls in the order received until a Syslog.println() call is received.
+* Will not actually send a Syslog message unless the buffer becomes full.
+* Uses String(arg).toCharArray() internally to do conversions.
+
+`Syslog.println(arg)`
+* Will append the arg to existing Syslog buffer and send the reuslting syslog message.
+
+These two functions are provided for convenience. In theory, a global search and replace of Serial.print() and Serial.println()
+should yield reasonable results in most cases. YMMV! You have been warned.
+
+These interfaces are not the preferred mechanism for a greenfield new program.
+
 
 
 ## Example Usage
