@@ -59,13 +59,13 @@ If setuplog() is called, it should be called before openlog(), or, the log shoul
 The openlog() call must preceed any calls to syslog().
 It will create a socket ready to send data to the specified syslog server.
 
-` setuplog()
+`setuplog()`
 * loghost is the servername of the system where log entries should be posted. Should be a host name, but can be an IP address.
 port is the port number to use for logging, defaults to 514. This library logs via UDP.
 * logmask is the logical or of all desired log levels. Log messages that are not members of the mask will not be transmitted to the server.
 > e.g. if logmask = LOG_EMERG|LOG_ALERT|LOG_NOTICE, then log messages with priority LOG_EMERG will be sent, but LOG_CRIT will not.
 
-` openlog()
+`openlog()`
 * ident is a sting which will be automatically prepended to log entries.
 * option logical OR of any of the following:
   - LOG_CONS -- Log directly to console if there is an error while sending to logger.
@@ -89,7 +89,7 @@ port is the port number to use for logging, defaults to 514. This library logs v
   - LOG_USER (default) -- Generic user-level messages
   - LOG_UUCP -- UUCP subsystem
 
-` syslog()
+`syslog()`
 * priority is exactly one of the following:
   - LOG_EMERG -- System is unusable
   - LOG_ALERT -- Action must be taken immediately
@@ -100,14 +100,14 @@ port is the port number to use for logging, defaults to 514. This library logs v
   - LOG_INFO -- Informational message
   - LOG_DEBUG -- Debug-level message
 
-` setlogmask()
+`setlogmask()`
 * logmask is the logical OR of one or more values from priority above.
 * Messages of levels corresponding to a 0 in the current logmask are not transmitted.
 * Messages of levels corresponding to a 1 in the current logmask are transmitted.
 * setlogmask() can be called at any time to change the logmask.
 
 
-` closelog()
+`closelog()`
 * Closes out the socket and frees up resources
 
 
