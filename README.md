@@ -36,6 +36,9 @@ myself to the ESP8266 boards (specifically the Adafruit ESP8266 Huzzah breakout)
 
 Porting to wired ethernet boards may require more effort. I've tried to stay as close to the Arduino generic WiFi library as possible.
 
+As I have been unable to yet find a sufficiently cost-effective microcontroller with IPv6 support, there is no IPv6 support in this library
+at this time.
+
 ## Library Details
 
 ```
@@ -43,12 +46,41 @@ Porting to wired ethernet boards may require more effort. I've tried to stay as 
 #include "Syslog.h" /* If using Particle DEV or most other environments */
 #include "Syslog/Syslog.h" /* If using build.particle.io Cloud IDE */
 
+void setuplog(const char *loghost = "syslog.local", const char *port = 514, int logmask = LOG_EMERG|LOG_ALERT|LOG_CRIT|LOG_ERR);
 void openlog(const char *ident, int option, int facility);
+void syslog(int priority, const char *format, ...);
+void closelog(void);
 
 ```
 
+If setuplog is called, it should be called before oenlog, or, the log should be closed prior to calling setuplog and then re-opened.
+
+The openlog call must preceed any calls to syslog().
+It will create a socket ready to send data to the specified syslog server.
+
+'setuplog()
+loghost is the servername of the system where log entries should be posted. Should be a host name, but can be an IP address.
+port is the port number to use for logging, defaults to 514. This library logs via UDP.
+logmask is the logical or of all desired log levels. Log messages that are not members of the mask will not be transmitted to the server.
+e.g. if logmask = LOG_EMERG|LOG_ALERT|LOG_NOTICE, then log messages with priority LOG_EMERG will be sent, but LOG_CRIT will not.
+
+'openlog()
+ident is a sting which will be automatically prepended to log entries.
+option logical OR of any of the following:
++ LOG_CONS -- Log directly to console if there is an error while sending to logger.
++ LOG_NDELAY -- Open connection Immediately -- This option is meaningless in this implementation as the connection is always opened immediately
++ LOG_NOWAIT -- Don't wait() for chile processes created while logging -- This option is meaningless in this implementation as no child processes are created
++ LOG_ODELAY -- Converse of LOG_NDELAY -- Meaningless in this implementation, delay is not an option.
++ LOG_PERROR -- Log to STDERR as well
++ LOG_PID -- Include PID with each message -- Meaningless in this implementation, no process table.
+
+
+
+
+
 ## Example Usage
 
+```
 
 void setup {
 
@@ -60,4 +92,4 @@ void loop {
 }
 
 
-
+```
